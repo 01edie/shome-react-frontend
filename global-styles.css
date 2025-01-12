@@ -1,0 +1,62 @@
+::-webkit-scrollbar {
+  width: 5px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgb(219, 218, 218);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(119, 119, 119);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(95, 95, 95);
+  border-radius: 10px;
+  cursor: grab;
+}
+
+::-webkit-scrollbar-thumb:active {
+  cursor: grabbing;
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: rgb(116, 116, 116);
+  border-radius: 10px;
+}
+.css-ixid5k {
+  border-color: rgb(188, 199, 225) !important;
+}
+
+.center-width {
+  display: flex;
+  justify-content: center;
+}
+
+.center-height {
+  display: flex;
+  align-items: center;
+}
+
+.center-full {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media only screen and (max-width: 480px) {
+  .Toastify__toast-container--top-left,
+  .Toastify__toast-container--top-center,
+  .Toastify__toast-container--top-right {
+    top: 16px !important;
+    transform: none;
+  }
+  .Toastify__toast {
+    width: 325px !important;
+    margin-right: 16px;
+    font-size: 13px;
+  }
+}
