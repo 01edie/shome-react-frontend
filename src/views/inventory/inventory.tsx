@@ -1,18 +1,7 @@
-import React from "react";
 import ViewWrapper from "../../components/page/view-wrapper";
-import ComingSoon from "../coming-soon";
 import { useInventoryGridData } from "../../hooks/use-inventory";
-import { Box, Title, Text } from "@mantine/core";
-import {
-  Avatar,
-  Card,
-  CardActionArea,
-  CardContent,
-  CardHeader,
-  Stack,
-  Typography,
-} from "@mui/material";
-import dayjs from "dayjs";
+import { Box } from "@mui/material";
+
 import InventoryItem from "../../components/inventroy/inventory-item";
 
 type Props = {};
@@ -51,9 +40,9 @@ function Inventory({}: Props) {
         borderRadius: "8px",
         backgroundColor: "#f9f9f9",
         minHeight: 400,
-        display:'flex',
-        flexWrap:"wrap",
-        gap:8
+        display: "flex",
+        flexWrap: "wrap",
+        gap: 1,
       }}
     >
       {data

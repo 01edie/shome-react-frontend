@@ -7,7 +7,6 @@ import {
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
-import React from "react";
 import { formatQuantity } from "../../views/view-utils/view-utils";
 
 type Props = {

@@ -1,5 +1,5 @@
 import React from "react";
-import { Title, Text, Box } from "@mantine/core";
+import { Typography, Box } from "@mui/material";
 
 function ComingSoon() {
   return (
@@ -12,12 +12,10 @@ function ComingSoon() {
         backgroundColor: "#f9f9f9",
       }}
     >
-      <Title order={2} style={{ color: "#333", marginBottom: "0.5rem" }}>
+      <Typography variant="h4" style={{ color: "#333", marginBottom: "0.5rem" }}>
         Coming Soon...
-      </Title>
-      <Text size="sm" color="dimmed">
-        Stay tuned!
-      </Text>
+      </Typography>
+      <Typography color="text.secondary">Stay tuned!</Typography>
     </Box>
   );
 }

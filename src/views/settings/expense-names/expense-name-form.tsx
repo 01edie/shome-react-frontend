@@ -10,13 +10,13 @@ import {
   useExpenseClassesListData,
 } from "../../../hooks/use-list-data";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { ExpenseNameCore, ExpenseNameGrid } from "../../../types/models";
+import { ExpenseNameCore, ExpenseNameGridItem } from "../../../types/models";
 import { ExpenseTypeOptions } from "../../../constants/modules";
 
 type Props = {
   onClose: () => void;
   refetch: () => void;
-  editData?: ExpenseNameGrid;
+  editData?: ExpenseNameGridItem;
 };
 type FormSchema = typeof formSchema._type;
 
