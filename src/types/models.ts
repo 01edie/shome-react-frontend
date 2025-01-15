@@ -97,6 +97,21 @@ export interface ExpenseCore {
   notes?: string;
 }
 
+export interface InventoryGridItem {
+  id: string;
+  expenseId: string;
+  itemName: string;
+  description: string;
+  quantity: number;
+  costPerUnit: number;
+  inUse: null | boolean;
+  stockingDate: string;
+  unit: string;
+  expense: {
+    transactionType: ExpenseType;
+  };
+}
+
 export interface InventoryAssignment {
   quantityToAssign: number;
   boarderId?: number;

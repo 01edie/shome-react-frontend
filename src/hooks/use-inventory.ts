@@ -4,6 +4,7 @@ import { API_ENDPOINTS } from "../constants/endpoints";
 import useGlobalMutation from "./useGlobalMutation";
 import { InventoryAssignment } from "../types/models";
 import { QUERY_KEYS } from "../constants/query-keys";
+import { GENERAL_CONFIGS } from "../config/app";
 
 export function useInventoryGridData() {
   return useQuery<any>({
@@ -12,7 +13,7 @@ export function useInventoryGridData() {
       request({
         url: API_ENDPOINTS.inventory,
       }),
-    staleTime: 1000 * 60 ** 2,
+    staleTime: GENERAL_CONFIGS.stale_time,
     refetchOnWindowFocus: false,
     select: (data: any): any[] => data?.data,
   });

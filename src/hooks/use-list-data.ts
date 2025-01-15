@@ -9,6 +9,7 @@ import {
   ExpenseNameCore,
 } from "../types/models";
 import { QUERY_KEYS } from "../constants/query-keys";
+import { GENERAL_CONFIGS } from "../config/app";
 
 export function useExpenseNamesListData() {
   return useQuery<any>({
@@ -17,7 +18,7 @@ export function useExpenseNamesListData() {
       request({
         url: API_ENDPOINTS.expense_names,
       }),
-    staleTime: 1000 * 60 ** 2,
+    staleTime: GENERAL_CONFIGS.stale_time,
     refetchOnWindowFocus: false,
     select: (data: any): any[] => data?.data,
   });
@@ -54,7 +55,7 @@ export function useExpenseClassesListData() {
       request({
         url: API_ENDPOINTS.expense_classes,
       }),
-    staleTime: 1000 * 60 ** 2,
+    staleTime: GENERAL_CONFIGS.stale_time,
     refetchOnWindowFocus: false,
     select: (data: any): any[] => data?.data,
   });

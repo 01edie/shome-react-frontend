@@ -46,7 +46,7 @@ function ExpenseClassForm({ onClose, refetch, editData }: Props) {
   return (
     <Box component="form" onSubmit={formElements.handleSubmit(submitHandler)}>
       <FormProvider {...formElements}>
-        <Stack spacing={1.5} mt={1} minWidth={400}>
+        <Stack spacing={1.5} mt={1}>
           <FormController {...className} />
           <FormController {...description} />
         </Stack>

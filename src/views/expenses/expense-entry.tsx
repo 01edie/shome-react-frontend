@@ -29,9 +29,6 @@ type Props = {
 };
 type FormSchema = typeof formSchema._type;
 
-const defOption = {
-  id: "",
-};
 
 function ExpenseEntry({ onClose }: Props) {
   const queryClient = useQueryClient();
@@ -133,7 +130,8 @@ function ExpenseEntry({ onClose }: Props) {
               </Grid>
             </Grid>
 
-            {watchExpenseName?.transactionType !== "internal_expense" ? (
+            {watchExpenseName?.transactionType === "boarder_expense" ||
+            watchExpenseName?.transactionType === "employee_expense" ? (
               <Grid container spacing={1}>
                 <Grid size={6}>
                   <FormController {...isAssignLater} />

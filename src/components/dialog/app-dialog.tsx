@@ -16,11 +16,13 @@ type Props = {
 
 function AppDialog({ open, onClose, title, description, children }: Props) {
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="sm">
+    <Dialog open={open} onClose={onClose}>
       <DialogTitle bgcolor="#dbdbdb" sx={{ py: 1.5 }}>
         {title}
       </DialogTitle>
-      <DialogContent sx={{ bgcolor: "#f9f9f9", pt: '8px !important' }}>
+      <DialogContent
+        sx={{ bgcolor: "#f9f9f9", pt: "8px !important", minWidth: 400 }}
+      >
         {description ? (
           <DialogContentText>{description}</DialogContentText>
         ) : null}
