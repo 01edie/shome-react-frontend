@@ -23,12 +23,12 @@ import { ExpenseCore } from "../../types/models";
 import { parseAmount } from "../../utils/app-utils";
 import { useQueryClient } from "@tanstack/react-query";
 import { QUERY_KEYS } from "../../constants/query-keys";
+import AppButton from "../../components/form/app-button";
 
 type Props = {
   onClose: () => void;
 };
 type FormSchema = typeof formSchema._type;
-
 
 function ExpenseEntry({ onClose }: Props) {
   const queryClient = useQueryClient();
@@ -73,7 +73,6 @@ function ExpenseEntry({ onClose }: Props) {
 
   // console.log("errors", formElements.formState.errors);
   const submitHandler = async (values: FormSchema) => {
-    console.log(values);
     const totalAmount = parseAmount(values.totalAmount);
     const quantity = +values.quantity;
     const userUnitAmount = values.userUnitAmount
@@ -100,7 +99,7 @@ function ExpenseEntry({ onClose }: Props) {
       queryClient.refetchQueries({ queryKey: [QUERY_KEYS.inventory] });
   };
   return (
-    <Box width={450} bgcolor="#f9f9f9" height="100%">
+    <Box width={{ xs: 350, md: 450 }} bgcolor="#f9f9f9" height="100%">
       <Typography align="center" my={1} variant="h6">
         Add Expense
       </Typography>
@@ -165,24 +164,26 @@ function ExpenseEntry({ onClose }: Props) {
 
             <FormController {...notes} multiline rows={2} />
           </Stack>
-          {/* <FormController {...isInventoryItem} /> */}
           <Stack direction="row" justifyContent="end" mt={2} spacing={1.5}>
-            <Button
-              size="small"
+            <AppButton
               disabled={isPending}
               variant="outlined"
               onClick={onClose}
             >
               Cancel
-            </Button>
-            <LoadingButton
+            </AppButton>
+            <AppButton
               type="submit"
-              size="small"
-              loading={isPending}
+              loading={
+                isPending ||
+                boardersOptionsLoading ||
+                employeesOptionsLoading ||
+                expenseNamesOptionsLoading
+              }
               variant="contained"
             >
               Save
-            </LoadingButton>
+            </AppButton>
           </Stack>
         </FormProvider>
       </Box>

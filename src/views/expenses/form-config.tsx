@@ -6,17 +6,7 @@ import {
   ExpenseClass,
   ExpenseNameGridItem,
 } from "../../types/models";
-
-const validateObjectWithId = (fieldName: string) =>
-  z.any().superRefine((data, ctx) => {
-    if (!data.id || data.id.trim().length === 0) {
-      ctx.addIssue({
-        code: "custom",
-        path: [],
-        message: `${fieldName} is required`,
-      });
-    }
-  });
+import { positiveAmount, validateObjectWithId } from "../../utils/form";
 
 export const formSchema = z
   .object({
@@ -27,22 +17,18 @@ export const formSchema = z
       .string()
       .min(1, { message: "Quantity is required" })
       .max(3, { message: "Maximum quantity: 999" })
-      .refine(
-        (value) => {
-          const parsedValue = parseInt(value, 10);
-          return parsedValue >= 1;
-        },
-        { message: "Quantity must be at least 1" }
-      ),
+      .refine(positiveAmount, { message: "Quantity must be at least 1" }),
 
     totalAmount: z
       .string()
       .min(1, { message: "Total amount is required" })
-      .max(12, { message: "Maximum amount: 99 lakhs" }),
+      .max(12, { message: "Maximum amount: 99 lakhs" })
+      .refine(positiveAmount, { message: "Amount must be positive" }),
 
     userUnitAmount: z
       .string()
-      .max(9, { message: "Maximum amount: 99 thousands" }),
+      .max(9, { message: "Maximum amount: 99 thousands" })
+      .refine(positiveAmount, { message: "User Amount must be positive" }),
 
     transactionDate: z
       .any()
@@ -59,7 +45,7 @@ export const formSchema = z
       .optional()
       .transform((value) => value as Employee),
     description: z.string().optional(),
-    notes: z.string().optional(),
+    notes: z.string().max(500, { message: "Notes cannot be longer than 500 characters" }).optional(),
   })
   .refine(
     (data) => {
@@ -89,12 +75,12 @@ export const formSchema = z
 export const formFields = {
   expenseName: {
     name: "expenseName",
-    label: "Expense Name",
+    label: "Expense Name*",
     control: "select-input" as const,
   },
   transactionDate: {
     name: "transactionDate",
-    label: "Transaction Date",
+    label: "Transaction Date*",
     control: "date-input" as const,
   },
   description: {
@@ -104,13 +90,13 @@ export const formFields = {
   },
   quantity: {
     name: "quantity",
-    label: "Quantity",
+    label: "Quantity*",
     control: "text-input" as const,
     type: "number",
   },
   totalAmount: {
     name: "totalAmount",
-    label: "Total Amount",
+    label: "Total Amount*",
     control: "amount-input" as const,
   },
   userUnitAmount: {
@@ -120,12 +106,12 @@ export const formFields = {
   },
   boarder: {
     name: "boarder",
-    label: "Boarder",
+    label: "Boarder*",
     control: "select-input" as const,
   },
   employee: {
     name: "employee",
-    label: "Employee",
+    label: "Employee*",
     control: "select-input" as const,
   },
   notes: {

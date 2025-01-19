@@ -12,6 +12,7 @@ import {
 import LoadingButton from "@mui/lab/LoadingButton";
 import { ExpenseNameCore, ExpenseNameGridItem } from "../../../types/models";
 import { ExpenseTypeOptions } from "../../../constants/modules";
+import AppButton from "../../../components/form/app-button";
 
 type Props = {
   onClose: () => void;
@@ -47,7 +48,6 @@ function ExpenseNameForm({ onClose, refetch, editData }: Props) {
     formFields;
 
   const submitHandler = async (values: FormSchema) => {
-    console.log(values);
     const newVal: ExpenseNameCore = {
       expenseName: values.expenseName,
       expenseClassId: values.expenseClass.id,
@@ -80,23 +80,21 @@ function ExpenseNameForm({ onClose, refetch, editData }: Props) {
           <FormController {...unit} />
         </Stack>
         <FormController {...isInventoryItem} />
-        <Stack direction="row" justifyContent="end" spacing={1.5} >
-          <Button
-            size="medium"
+        <Stack direction="row" justifyContent="end" mt={1} spacing={1.5}>
+          <AppButton
             disabled={isPending || isPendingEdit}
             variant="outlined"
             onClick={onClose}
           >
             Cancel
-          </Button>
-          <LoadingButton
+          </AppButton>
+          <AppButton
             type="submit"
-            size="medium"
             loading={isPending || isPendingEdit}
             variant="contained"
           >
             Save
-          </LoadingButton>
+          </AppButton>
         </Stack>
       </FormProvider>
     </Box>

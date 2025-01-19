@@ -3,6 +3,7 @@ import { useController } from "react-hook-form";
 
 import { TextInputProps } from "../../types/form";
 import { TextField, InputAdornment } from "@mui/material";
+import { formatAmount } from "../../utils/app-utils";
 
 function AppAmountInput(props: TextInputProps) {
   const { name, ...attr } = props;
@@ -14,7 +15,7 @@ function AppAmountInput(props: TextInputProps) {
   const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
     const value = parseFloat(event.target.value.replace(/,/g, ""));
     if (!isNaN(value)) {
-      field.onChange(value.toLocaleString(undefined,{maximumFractionDigits:2,minimumFractionDigits:2}));
+      field.onChange(formatAmount(value));
     } else {
       field.onChange("");
     }

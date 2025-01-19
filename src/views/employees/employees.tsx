@@ -1,13 +1,13 @@
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import { MRT_ColumnDef, MRT_Row } from "material-react-table";
 import { Box, Button, IconButton, Tooltip, Typography } from "@mui/material";
 import dayjs from "dayjs";
-import EditIcon from "@mui/icons-material/Edit";
+import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import { useNavigate } from "react-router-dom";
 
 import ViewWrapper from "../../components/page/view-wrapper";
 import AppDataTable from "../../components/datatable/app-datatable";
-import { Boarder, Employee } from "../../types/models";
+import { Employee } from "../../types/models";
 import { useEmployeesGridData } from "../../hooks/use-employees";
 
 type Props = {};
@@ -15,7 +15,6 @@ type Props = {};
 function Employees({}: Props) {
   const { data, isFetching } = useEmployeesGridData();
   const navigate = useNavigate();
-  console.log(data);
 
   const rowAction = ({ row }: { row: MRT_Row<Employee> }) => (
     <Box className="center-width">
@@ -23,7 +22,7 @@ function Employees({}: Props) {
         size="small"
         onClick={() => navigate(`/app/employees/edit/${row.original.id}`)}
       >
-        <EditIcon />
+        <PersonOutlineOutlinedIcon />
       </IconButton>
     </Box>
   );
@@ -55,9 +54,23 @@ function Employees({}: Props) {
         accessorKey: "joiningDate",
         header: "Joining Date",
         size: 150,
+        filterVariant: "date",
+        muiFilterDatePickerProps: {
+          format: "DD/MM/YYYY",
+        },
+        filterFn: (row, _columnIds, filterValue) => {
+          const tmp = row.getValue<string>("joiningDate");
+          if (!filterValue) {
+            return false;
+          }
+
+          return (
+            dayjs(tmp).format("YYYY-MM-DD") == filterValue.format("YYYY-MM-DD")
+          );
+        },
         Cell: ({ cell }) => {
           const v = cell.getValue<string>();
-          return <span>{dayjs(v).format("DD MMM, YYYY")}</span>;
+          return <span>{dayjs(v).format("MMM DD, YYYY")}</span>;
         },
       },
     ],
@@ -67,7 +80,13 @@ function Employees({}: Props) {
   const topToolBar = () => (
     <Box p={1}>
       {/* <Tooltip title="New Boarder"> */}
-      <Button variant="outlined" size="small">
+      <Button
+        variant="outlined"
+        size="small"
+        onClick={() => {
+          navigate("/app/employees/new");
+        }}
+      >
         New
       </Button>
       {/* </Tooltip> */}

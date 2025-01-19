@@ -7,7 +7,7 @@ import { TextField } from "@mui/material";
 function AppTextInput(props: TextInputProps) {
   const { name, ...attr } = props;
   const {
-    field,
+    field: { value, ...restField },
     fieldState: { error: fieldError },
   } = useController({ name });
 
@@ -15,7 +15,8 @@ function AppTextInput(props: TextInputProps) {
     <TextField
       fullWidth
       size="small"
-      {...field}
+      value={value }
+      {...restField}
       {...attr}
       error={Boolean(fieldError)}
       helperText={fieldError?.message}

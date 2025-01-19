@@ -5,7 +5,6 @@ const ParticleBackground = () => {
     // Check if particlesJS is available in the window object
     // @ts-ignore
     if (window.particlesJS) {
-      console.log('abc')
       // @ts-ignore
       window.particlesJS("particles-js", {
         "particles": {

@@ -21,7 +21,11 @@ function AppDialog({ open, onClose, title, description, children }: Props) {
         {title}
       </DialogTitle>
       <DialogContent
-        sx={{ bgcolor: "#f9f9f9", pt: "8px !important", minWidth: 400 }}
+        sx={{
+          bgcolor: "#f9f9f9",
+          pt: "8px !important",
+          width: { xs: 300, sm: 350, md: 400 },
+        }}
       >
         {description ? (
           <DialogContentText>{description}</DialogContentText>

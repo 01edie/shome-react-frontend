@@ -9,11 +9,9 @@ function useGlobalMutation<T>(
   return useMutation({
     ...options,
     onSuccess: (res) => {
-      // console.log("abcd", res);
       notifySuccess(res?.message);
     },
     onError: (err) => {
-      console.log("abc", err);
       if (typeof err === "string") {
         notifyError(err);
       } else if (typeof err === "object") {

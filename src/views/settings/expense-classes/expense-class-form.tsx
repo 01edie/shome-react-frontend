@@ -10,6 +10,7 @@ import {
 } from "../../../hooks/use-list-data";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { ExpenseClass } from "../../../types/models";
+import AppButton from "../../../components/form/app-button";
 
 type Props = {
   onClose: () => void;
@@ -51,22 +52,20 @@ function ExpenseClassForm({ onClose, refetch, editData }: Props) {
           <FormController {...description} />
         </Stack>
         <Stack direction="row" justifyContent="end" spacing={1.5} mt={2}>
-          <Button
-            size="medium"
+          <AppButton
             disabled={isPending || isPendingEdit}
             variant="outlined"
             onClick={onClose}
           >
             Cancel
-          </Button>
-          <LoadingButton
+          </AppButton>
+          <AppButton
             type="submit"
-            size="medium"
             loading={isPending || isPendingEdit}
             variant="contained"
           >
             Save
-          </LoadingButton>
+          </AppButton>
         </Stack>
       </FormProvider>
     </Box>

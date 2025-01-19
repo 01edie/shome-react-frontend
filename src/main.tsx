@@ -13,7 +13,13 @@ import theme from "./config/theme";
 import { router } from "./config/router";
 import { AuthProvider } from "./context/auth-context";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+    },
+  },
+});
 
 function Main() {
   return (

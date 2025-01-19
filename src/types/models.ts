@@ -1,33 +1,39 @@
-export interface Boarder {
-  id: string;
+export interface BoarderCore {
   firstName: string;
   lastName: string;
   dob: string;
   bloodGroup: string;
-  contactNumber: string;
+  contactNumber?: string;
   emergencyContact: string;
   guardianName: string;
-  medicalCondition: string;
-  specialNeeds: string;
-  allergies: string;
-  notes: string;
-  active: true;
-  roomNo: 4;
+  medicalCondition?: string ;
+  specialNeeds?: string ;
+  allergies?: string ;
+  notes?: string;
+  active: boolean;
+  roomNo?: number;
   joiningDate: string;
-  leavingDate: string | null;
+  leavingDate?: string | null;
 }
 
-export interface Employee {
+export interface Boarder extends BoarderCore {
   id: string;
+}
+
+export interface EmployeeCore {
   firstName: string;
   lastName: string;
-  employeeRole: string;
+  employeeRole?: string;
   salary: string;
   contactNumber: string;
-  notes: string;
+  notes?: string;
   active: boolean;
   joiningDate: string;
-  leavingDate: string | null;
+  leavingDate?: string | null;
+}
+
+export interface Employee extends EmployeeCore {
+  id: string;
 }
 
 export type ExpenseType =

@@ -10,7 +10,10 @@ import {
   InputAdornment,
   LinearProgress,
   Stack,
+  Typography,
 } from "@mui/material";
+import FactCheckOutlinedIcon from "@mui/icons-material/FactCheckOutlined";
+
 import { useBoardersGridData } from "../../hooks/use-boarders";
 import { useEmployeesGridData } from "../../hooks/use-employees";
 
@@ -23,6 +26,9 @@ import { FormProvider, useForm } from "react-hook-form";
 import FormController from "../../components/form/controller";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { InventoryAssignment, InventoryGridItem } from "../../types/models";
+import AppButton from "../../components/form/app-button";
+import { useQueryClient } from "@tanstack/react-query";
+import { QUERY_KEYS } from "../../constants/query-keys";
 
 type Props = {};
 
@@ -37,6 +43,7 @@ function Inventory({}: Props) {
   const { mutateAsync: assign, isPending } = useAssignInventoryItem();
   const [formOpen, setFormOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<InventoryGridItem>();
+  const queryClient = useQueryClient();
 
   const formElements = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
@@ -57,8 +64,10 @@ function Inventory({}: Props) {
 
   const handleClose = () => {
     setFormOpen(false);
-    setSelectedItem(undefined);
-    formElements.reset();
+    setTimeout(() => {
+      formElements.reset();
+      setSelectedItem(undefined);
+    }, 200);
   };
 
   const submitHandler = async (values: FormSchema) => {
@@ -68,7 +77,6 @@ function Inventory({}: Props) {
       });
       return;
     }
-    console.log(values);
     const newData: InventoryAssignment = {
       quantityToAssign: +values.quantityToAssign,
       employeeId:
@@ -84,6 +92,7 @@ function Inventory({}: Props) {
     await assign({ newData, id: selectedItem?.id! });
 
     refetch();
+    queryClient.refetchQueries({ queryKey: [QUERY_KEYS.expenses] });
     handleClose();
   };
 
@@ -123,6 +132,19 @@ function Inventory({}: Props) {
               ))
             : null}
         </Grid>
+        {data?.length === 0 ? (
+          <Box
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%,-50%)",
+            }}
+          >
+            <FactCheckOutlinedIcon sx={{ fontSize: 64 }} />{" "}
+            <Typography>Currently, no items is in inventory.</Typography>
+          </Box>
+        ) : null}
         <AppDialog
           title="Inventory Assignment"
           open={formOpen}
@@ -151,7 +173,7 @@ function Inventory({}: Props) {
                     {...boarder}
                     options={boardersOptions ?? []}
                     getOptionLabel={(opt) =>
-                      opt?.firstName ? opt.firstName + opt.lastName : ""
+                      opt?.firstName ? opt.firstName + " " + opt.lastName : ""
                     }
                   />
                 ) : null}
@@ -160,24 +182,24 @@ function Inventory({}: Props) {
                     {...employee}
                     options={employeesOptions ?? []}
                     getOptionLabel={(opt) =>
-                      opt?.firstName ? opt.firstName + opt.lastName : ""
+                      opt?.firstName ? opt.firstName + " " + opt.lastName : ""
                     }
                   />
                 ) : null}
               </Stack>
 
               <Stack direction="row" justifyContent="end" mt={2} spacing={1.5}>
-                <Button
-                  size="small"
+                <AppButton
+                  size="medium"
                   disabled={isPending}
                   variant="outlined"
                   onClick={handleClose}
                 >
                   Cancel
-                </Button>
-                <LoadingButton
+                </AppButton>
+                <AppButton
                   type="submit"
-                  size="small"
+                  size="medium"
                   loading={
                     isPending ||
                     boardersOptionsLoading ||
@@ -186,7 +208,7 @@ function Inventory({}: Props) {
                   variant="contained"
                 >
                   Assign
-                </LoadingButton>
+                </AppButton>
               </Stack>
             </FormProvider>
           </Box>

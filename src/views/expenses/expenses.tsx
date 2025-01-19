@@ -1,25 +1,31 @@
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import { MRT_ColumnDef, MRT_Row } from "material-react-table";
 import { Box, Button, IconButton, Tooltip, Typography } from "@mui/material";
 import dayjs from "dayjs";
-import EditIcon from "@mui/icons-material/Edit";
 import { useNavigate } from "react-router-dom";
+import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 
 import ViewWrapper from "../../components/page/view-wrapper";
 import AppDataTable from "../../components/datatable/app-datatable";
 import { ExpenseGridItem } from "../../types/models";
 import { useExpensesGridData } from "../../hooks/use-expenses";
 import { ExpenseTypes } from "../../constants/modules";
-import { formatAmount, formatQuantity } from "../view-utils/view-utils";
-
-
+import {
+  formatAmountWithSymbol,
+  formatQuantity,
+} from "../view-utils/view-utils";
+import expenseExport from "./expense-export";
 
 type Props = {};
 
 function Expenses({}: Props) {
   const { data, isFetching } = useExpensesGridData();
   const navigate = useNavigate();
-  // console.log(data);
+
+  const gridData = useMemo(() => {
+    if (isFetching) return [];
+    if (data) return data.filter((e: any) => !e.fromInventoryAssignment);
+  }, [data]);
 
   const rowAction = ({ row }: { row: MRT_Row<ExpenseGridItem> }) => (
     <Box className="center-width">
@@ -27,7 +33,7 @@ function Expenses({}: Props) {
         size="small"
         onClick={() => navigate(`/app/expenses/edit/${row.original.id}`)}
       >
-        <EditIcon />
+        <DescriptionOutlinedIcon />
       </IconButton>
     </Box>
   );
@@ -54,7 +60,7 @@ function Expenses({}: Props) {
         },
         Cell: ({ cell }) => {
           const v = cell.getValue<string>();
-          return <span>{dayjs(v).format("DD MMM, YYYY")}</span>;
+          return <span>{dayjs(v).format("MMM DD, YYYY")}</span>;
         },
       },
       {
@@ -81,7 +87,9 @@ function Expenses({}: Props) {
         accessorKey: "totalAmount",
         header: "Amount",
         size: 100,
-        Cell: ({ cell }) => <>{formatAmount(cell.getValue<string>())}</>,
+        Cell: ({ cell }) => (
+          <>{formatAmountWithSymbol(cell.getValue<string>())}</>
+        ),
       },
       {
         accessorFn: (row) => {
@@ -114,11 +122,23 @@ function Expenses({}: Props) {
         variant="outlined"
         size="small"
         onClick={() => {
-          const el = document.getElementById("add-expense");
-          el?.click();
+          // const el = document.getElementById("add-expense");
+          // el?.click();
+          navigate("/app/expenses/new");
         }}
       >
         New
+      </Button>
+
+      <Button
+        variant="outlined"
+        size="small"
+        sx={{ ml: 2 }}
+        onClick={() => {
+          expenseExport(data);
+        }}
+      >
+        Export
       </Button>
       {/* </Tooltip> */}
     </Box>
@@ -127,7 +147,7 @@ function Expenses({}: Props) {
   return (
     <Box bgcolor="wheat">
       <AppDataTable
-        data={data ?? []}
+        data={gridData ?? []}
         isLoading={isFetching}
         columns={columns}
         topToolBar={topToolBar}

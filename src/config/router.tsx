@@ -13,6 +13,7 @@ import Preview from "../views/preview/preview";
 import TestComponent from "../views/test";
 import ErrorBoundary from "../components/error-boundary/error-boundary";
 import NotFoundPage from "../components/not-found/not-found";
+import { APP_ROUTES } from "../constants/routes";
 
 const routes: RouteObject[] = routeList.map((e) => {
   if (e.index) {
@@ -45,17 +46,17 @@ const routes: RouteObject[] = routeList.map((e) => {
 
 export const router = createBrowserRouter([
   {
-    path: "/",
+    path: APP_ROUTES.root,
     element: <Preview />,
   },
   {
-    path: "/app",
+    path: APP_ROUTES.appRoot,
     element: <Layout />,
     children: routes,
     errorElement: <ErrorBoundary />,
   },
   {
-    path: "/login",
+    path:APP_ROUTES.login,
     element: <Login />,
   },
   {

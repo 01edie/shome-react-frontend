@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import { MRT_ColumnDef, MRT_Row } from "material-react-table";
 import { Box, Button, IconButton, Tooltip, Typography } from "@mui/material";
 import dayjs from "dayjs";
-import EditIcon from "@mui/icons-material/Edit";
+import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 
 import ViewWrapper from "../../components/page/view-wrapper";
 import { useBoardersGridData } from "../../hooks/use-boarders";
@@ -15,7 +15,6 @@ type Props = {};
 function Boarders({}: Props) {
   const { data, isFetching } = useBoardersGridData();
   const navigate = useNavigate();
-  console.log(data);
 
   const rowAction = ({ row }: { row: MRT_Row<Boarder> }) => (
     <Box className="center-width">
@@ -23,7 +22,7 @@ function Boarders({}: Props) {
         size="small"
         onClick={() => navigate(`/app/boarders/edit/${row.original.id}`)}
       >
-        <EditIcon />
+        <PersonOutlineOutlinedIcon />
       </IconButton>
     </Box>
   );
@@ -65,9 +64,23 @@ function Boarders({}: Props) {
         accessorKey: "joiningDate",
         header: "Joining Date",
         size: 150,
+        filterVariant: "date",
+        muiFilterDatePickerProps: {
+          format: "DD/MM/YYYY",
+        },
+        filterFn: (row, _columnIds, filterValue) => {
+          const tmp = row.getValue<string>("joiningDate");
+          if (!filterValue) {
+            return false;
+          }
+
+          return (
+            dayjs(tmp).format("YYYY-MM-DD") == filterValue.format("YYYY-MM-DD")
+          );
+        },
         Cell: ({ cell }) => {
           const v = cell.getValue<string>();
-          return <span>{dayjs(v).format("DD MMM, YYYY")}</span>;
+          return <span>{dayjs(v).format("MMM DD, YYYY")}</span>;
         },
       },
     ],
@@ -77,7 +90,11 @@ function Boarders({}: Props) {
   const topToolBar = () => (
     <Box p={1}>
       {/* <Tooltip title="New Boarder"> */}
-      <Button variant="outlined" size="small">
+      <Button
+        variant="outlined"
+        size="small"
+        onClick={() => navigate("/app/boarders/new")}
+      >
         New
       </Button>
       {/* </Tooltip> */}
@@ -85,7 +102,7 @@ function Boarders({}: Props) {
   );
 
   return (
-    <Box bgcolor='wheat'>
+    <Box bgcolor="wheat">
       <AppDataTable
         data={data ?? []}
         isLoading={isFetching}

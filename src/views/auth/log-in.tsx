@@ -38,12 +38,10 @@ const LoginPage = () => {
   });
 
   const submitHandler = async (values: Schema) => {
-    console.log(values);
     const res = await requestLogIn(values);
-    console.log("sh", res);
     if (res) {
       localStorage.setItem("justAToken", "Hello from this side");
-      loginToApp(res.name);
+      loginToApp(res.name, res.expiresIn);
       navigate("/app/dashboard");
     }
   };

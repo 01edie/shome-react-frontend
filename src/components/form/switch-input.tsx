@@ -12,7 +12,7 @@ function AppSwitchInput(props: SwitchInputProps) {
   } = useController({ name });
 
   return (
-    <FormGroup>
+    <FormGroup sx={{ display: "inline-block" }}>
       {/* error not implemented */}
       {/* error={Boolean(fieldError)} helperText={fieldError?.message} */}
       <FormControlLabel

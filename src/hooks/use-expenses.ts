@@ -29,3 +29,15 @@ export const useAddExpense = () => {
       }),
   });
 };
+
+export const useEditExpense = () => {
+  return useGlobalMutation({
+    mutationFn: ({ newData, id }: { newData: ExpenseCore; id: string }) =>
+      request({
+        url: API_ENDPOINTS.expenses + "/" + id,
+        method: "PUT",
+        data: newData,
+      }),
+  });
+};
+
