@@ -22,3 +22,5 @@ export const APP_ROUTES = {
   settings: `${appRoot}/settings`,
   settingsExpenseName: `${appRoot}/settings/expense-names`,
 } as const;
+
+export const homeRoute = APP_ROUTES.boarders;

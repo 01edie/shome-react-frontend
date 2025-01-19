@@ -21,6 +21,7 @@ import ParticleBackground from "../../components/particle-background/particle-ba
 import { formFields, formSchema } from "./form-config";
 import FormController from "../../components/form/controller";
 import { useLogIn } from "../../hooks/use-auth";
+import { homeRoute } from "../../constants/routes";
 
 type Schema = typeof formSchema._type;
 const LoginPage = () => {
@@ -42,14 +43,14 @@ const LoginPage = () => {
     if (res) {
       localStorage.setItem("justAToken", "Hello from this side");
       loginToApp(res.name, res.expiresIn);
-      navigate("/app/dashboard");
+      navigate(homeRoute);
     }
   };
 
   const { username, password } = formFields;
 
   useEffect(() => {
-    if (isAuthenticated) navigate("/app/dashboard");
+    if (isAuthenticated) navigate(homeRoute);
   }, []);
 
   return (
